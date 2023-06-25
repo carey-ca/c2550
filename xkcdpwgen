@@ -1,0 +1,43 @@
+import random
+import argparse
+
+parser = argparse.ArgumentPaser(description= 'Generate a secure, memorable password using the XKCD method')
+parser.add_argument('-w', '--words-', type=int, defult=4, help= 'include WORDS words in the password (default=4)')
+parser.add_argument('-c', '--caps-', type=int, defult=0, help= 'capitalize the first letter of CAPS random words (default=0)')
+parser.add_argument('-n', '--numbers-', type=int, defult=0, help= 'insert NUMBERS random numbers in the password (default=0)')
+parser.add_argument('-s', '--symbols-', type=int, defult=0, help= 'insert SYMBOLS random symbols in the password (default=0)')
+
+## picks a random word from the words.txt file
+def pickWord():
+ words = open('words.txt').read().splitlines()
+ return random.choice(words)
+ 
+ ##picks a random index to insert the word in a random location
+ def pickIndex(password):
+  index = random.randomint(0, len(password))
+ 
+## inserts a random word (and number/symbol/caps if requested) into the password at a random index
+def generatePassword():
+ return password[0:index] + word + [index:len(password)]
+ 
+ passwordList = []
+  for i in range(0, args.words):
+   if (args.caps > 0): 
+    passwordList.insert(pickIndex(password), randWord().capitalize())
+    args.caps -= 1
+   else:
+   passwordList.insert(pickIndex(password), randWord())
+   
+   while args.symbols > 0:
+   s = random.choice(["`","~","!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "{", "]", "}", "|", "/", ":", ";", "<", ",", ">", ".", "?"])
+   passwordList.insert(pickIndex(password), s)
+   args.symbols -= 1
+   
+   while args.numbers > 0:
+   n = random.randint(0,9)
+   passwordList.insert(pickIndex(password), n)
+   args.numbers -= 1
+
+password = ''.join(str(i) for i in passwordList)
+print(password)
+
